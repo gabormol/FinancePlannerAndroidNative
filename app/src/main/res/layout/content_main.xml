@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.forcetechsoft.financeplanner.view.MainActivity"
+    tools:showIn="@layout/activity_main"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!-- app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" -->
+
+    <LinearLayout
+        android:id="@+id/linearLayoutForTitle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.84"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/window_title_main"
+            android:id="@+id/textView"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutForButtons1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.84"
+        android:layout_below="@id/linearLayoutForTitle1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="shareBtn"
+            android:text="@string/share_button" />
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="searchBtn"
+            android:text="@string/search_button" />
+
+        <Button
+            android:id="@+id/button_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="accountBtn"
+            android:text="@string/account_button" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/linearLayoutforButtons4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayoutForButtons1"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="bottom">
+
+        <Button
+                android:id="@+id/button_search_search_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="settingsBtn"
+                android:text="@string/search_options_button" />
+
+    </LinearLayout>
+
+</RelativeLayout>

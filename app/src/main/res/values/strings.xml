@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">FinancePlanner</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="share_button">MY TEMPLATE</string>
+    <string name="search_button">ACTUAL TIMESHEET</string>
+    <string name="search_options_button">SETTINGS</string>
+    <string name="account_button">BALANCE</string>
+    <string name="share_user_location_title">SHARE MY LOCATION</string>
+    <string name="share_contacts_title">SHARE MY CONTACTS</string>
+    <string name="share_social_title">SHARE MY SOCIAL CONTACTS</string>
+    <string name="search_title">SEARCH OPTIONS</string>
+    <string name="search_user_location_title">LOCATION</string>
+    <string name="search_contacts_title">CONTACT</string>
+    <string name="search_social_title">SOCIAL CONTACT</string>
+
+    <string name="radio_btn_free">Sharing for free</string>
+    <string name="radio_btn_pay">Sharing price [cent]: </string>
+    <string name="radio_btn_ask">Ask me</string>
+
+    <string name="radio_btn_free_search">Searching for free</string>
+    <string name="radio_btn_pay_search">Offer for data [cent]: </string>
+
+    <string name="identity_for_search">"  Number:  "</string>
+
+
+    <string name="window_title_main">Select action:</string>
+    <string name="window_title_share_configuration">Sharing options</string>
+    <string name="window_title_search_configuration">Timesheet for this month </string>
+</resources>

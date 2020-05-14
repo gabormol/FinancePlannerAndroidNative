@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.forcetechsoft.financeplanner.view.SearchOptions">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutforTitleSearch2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/search_title"
+            android:id="@+id/textViewSearchGeneral"
+            android:textStyle="bold"
+            android:layout_gravity="left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/textViewSearchGeneralUnder" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutforButtonsSearch2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayoutforTitleSearch2"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/search_user_location_title"
+            android:id="@+id/textViewSearch1"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="fill_parent">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:id="@+id/radioGroupLocationSearch"
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_btn_free_search"
+                        android:id="@+id/radioButtonFreeLocationSearch" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_btn_pay_search"
+                        android:layout_weight="5"
+                        android:id="@+id/radioButtonPaidLocationSearch" />
+
+                </RadioGroup>
+
+
+
+            </LinearLayout>
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:id="@+id/locationSearchPrice"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/search_contacts_title"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="5">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_weight="5"
+                    android:id="@+id/radioGroupContactsSearch"
+                    android:layout_height="0dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_btn_free_search"
+                        android:id="@+id/radioButtonFreeContactSearch" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:text="@string/radio_btn_pay_search"
+                        android:id="@+id/radioButtonPaidContactSearch" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:id="@+id/contactSearchPrice" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/search_social_title"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="5">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_weight="5"
+                    android:id="@+id/radioGroupSocialContactsSearch"
+                    android:layout_height="0dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_btn_free_search"
+                        android:id="@+id/radioButtonFreeSocialSearch"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_btn_pay_search"
+                        android:layout_weight="5"
+                        android:id="@+id/radioButtonPaidSocialContactSeatch" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:id="@+id/contactShareSocialPrice"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="APPLY CHANGES"
+        android:id="@+id/button_apply_search_settings"
+        android:layout_alignParentBottom="true"
+        android:onClick="applyNewSettings"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CANCEL CHANGES"
+        android:id="@+id/button_cancel_search_activitu"
+        android:layout_alignTop="@+id/button_apply_search_settings"
+        android:onClick="dontApplyAnySetting"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
