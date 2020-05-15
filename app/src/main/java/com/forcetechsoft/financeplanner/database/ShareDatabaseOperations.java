@@ -12,14 +12,20 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class ShareDatabaseOperations {
 
-    private ShareDatabaseHelper dbHelper;
-    private String[] PERSON_TABLE_COLUMNS = { ShareDatabaseHelper.PERSON_COLUMN_ID,
-            ShareDatabaseHelper.PERSON_COLUMN_NAME, ShareDatabaseHelper.PERSON_COLUMN_PHONE};
+    private FinancePlannerDatabaseHelper dbHelper;
+    private String[] TEMPLATE_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID,
+            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED,
+            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH,
+            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_DUE_TO};
+
+    private String[] TIMESHEET_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID,
+            FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED,
+            FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID};
 
     private SQLiteDatabase database;
 
     public ShareDatabaseOperations(Context context) {
-        dbHelper = new ShareDatabaseHelper(context);
+        dbHelper = new FinancePlannerDatabaseHelper(context);
     }
 
     public void open() throws SQLException {
@@ -30,48 +36,111 @@ public class ShareDatabaseOperations {
         dbHelper.close();
     }
 
-    public boolean insertContact(String name, String phone) {
+    public boolean insertTemplateItem(String expenseName, String expensePlanned,
+                                      String expenseFrequency, String expenseNextMonth,
+                                      String expenseDueTo) {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(ShareDatabaseHelper.PERSON_COLUMN_NAME, name);
-        contentValues.put(ShareDatabaseHelper.PERSON_COLUMN_PHONE, phone);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME, expenseName);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED, expensePlanned);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY, expenseFrequency);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH, expenseNextMonth);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_DUE_TO, expenseDueTo);
 
-        long studId = database.insert(ShareDatabaseHelper.PERSON_TABLE_NAME, null, contentValues);
+        long studId = database.insert(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, null, contentValues);
         return true;
     }
 
-    public int numberOfRows() {
+    public boolean insertTimesheetItem(String expenseName, String expensePlanned,
+                                       String expensePaid) {
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, expenseName);
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED, expensePlanned);
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID, expensePaid);
+
+        long studId = database.insert(FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public int numberOfTemplateRows() {
         int numRows = (int) DatabaseUtils.queryNumEntries(
-                database, ShareDatabaseHelper.PERSON_TABLE_NAME);
+                database, FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME);
         return numRows;
     }
 
-    public boolean updateContact(Integer id, String name, String phone) {
+    public int numberOfTimesheetRows() {
+        int numRows = (int) DatabaseUtils.queryNumEntries(
+                database, FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME);
+        return numRows;
+    }
+
+    public boolean updateTemplateItem(Integer id, String expenseName, String expensePlanned,
+                                      String expenseFrequency, String expenseNextMonth,
+                                      String expenseDueTo) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ShareDatabaseHelper.PERSON_COLUMN_NAME, name);
-        contentValues.put(ShareDatabaseHelper.PERSON_COLUMN_PHONE, phone);
-        database.update(ShareDatabaseHelper.PERSON_TABLE_NAME, contentValues,
-                ShareDatabaseHelper.PERSON_COLUMN_ID + " = ? ", new String[] { Integer.toString(id) } );
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME, expenseName);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED, expensePlanned);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY, expenseFrequency);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH, expenseNextMonth);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_DUE_TO, expenseDueTo);
+
+        database.update(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, contentValues,
+                FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
         return true;
     }
 
-    public Integer deleteContact(Integer id) {
-        return database.delete(ShareDatabaseHelper.PERSON_TABLE_NAME,
-                ShareDatabaseHelper.PERSON_COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+    public boolean updateTimesheetItem(Integer id, String expenseName, String expensePlanned,
+                                       String expensePaid) {
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, expenseName);
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED, expensePlanned);
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID, expensePaid);
+
+        database.update(FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME, contentValues,
+                FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return true;
     }
 
-    public Cursor getContact(int id) {
-        Cursor res =  database.rawQuery("SELECT * FROM " + ShareDatabaseHelper.PERSON_TABLE_NAME
-                + " WHERE " + ShareDatabaseHelper.PERSON_COLUMN_ID + "=?",
+    public Integer deleteTemplateItem(Integer id) {
+        return database.delete(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME,
+                FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID + " = ? ",
+                new String[]{Integer.toString(id)});
+    }
+
+    public Integer deleteTimesheetItem(Integer id) {
+        return database.delete(FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME,
+                FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID + " = ? ",
+                new String[]{Integer.toString(id)});
+    }
+
+    public Cursor getTemplateItem(int id) {
+        Cursor res = database.rawQuery("SELECT * FROM " + FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME
+                        + " WHERE " + FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID + "=?",
                 new String[]{Integer.toString(id)});
         return res;
     }
 
-    public Cursor getAllContacts() {
-        Cursor res =  database.rawQuery( "SELECT * FROM "
-                + ShareDatabaseHelper.PERSON_TABLE_NAME, null );
+    public Cursor getTimesheetItem(int id) {
+        Cursor res = database.rawQuery("SELECT * FROM " + FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME
+                        + " WHERE " + FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID + "=?",
+                new String[]{Integer.toString(id)});
+        return res;
+    }
+
+    public Cursor getAllTemplateItems() {
+        Cursor res = database.rawQuery("SELECT * FROM "
+                + FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, null);
+        return res;
+    }
+
+    public Cursor getAllTimesheetItems() {
+        Cursor res = database.rawQuery("SELECT * FROM "
+                + FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME, null);
         return res;
     }
 }

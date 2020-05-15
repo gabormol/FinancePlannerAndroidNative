@@ -1,17 +1,11 @@
 package com.forcetechsoft.financeplanner.model;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
-import com.forcetechsoft.financeplanner.MVP;
-import com.forcetechsoft.financeplanner.database.ShareDatabaseHelper;
-import com.forcetechsoft.financeplanner.database.ShareDatabaseOperations;
-
-import java.util.Iterator;
+import com.forcetechsoft.financeplanner.database.FinancePlannerDatabaseHelper;
 
 /**
  * Created by egbomol on 3/25/2016.
@@ -57,7 +51,7 @@ public class ContactShareModel extends GenericShareModel {
             int cursorRows = cursor.getCount();
 
             for (int i=0; i<cursorRows; i++){
-                insertContactIntoShareDatabase(cursor);
+                //insertContactIntoShareDatabase(cursor);
                 cursor.moveToNext();
             }
 
@@ -97,7 +91,7 @@ public class ContactShareModel extends GenericShareModel {
         Log.d(TAG, "LOFASZ - returnAllContacts is called");
 
         StringBuffer output = new StringBuffer();
-        Cursor aCursor = dbOperations.getAllContacts();
+        Cursor aCursor = dbOperations.getAllTemplateItems();
         Log.d(TAG, "LOFASZ - returnAllContacts Cursor is received...");
 
         int rowNum = aCursor.getCount();
@@ -109,15 +103,15 @@ public class ContactShareModel extends GenericShareModel {
             Log.d(TAG, "LOFASZ - cursor moved to next...");
 
             contact_id = aCursor.getString(
-                    aCursor.getColumnIndex(ShareDatabaseHelper.PERSON_COLUMN_ID));
+                    aCursor.getColumnIndex(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID));
             //Log.d(TAG,"LOFASZ - contact_id = " + contact_id);
             output.append("\n _ID:" + contact_id);
             name = aCursor.getString(
-                    aCursor.getColumnIndex(ShareDatabaseHelper.PERSON_COLUMN_NAME));
+                    aCursor.getColumnIndex(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME));
             //Log.d(TAG,"LOFASZ - name = " + name);
             output.append("\n Name:" + name);
             phoneNum = aCursor.getString(
-                    aCursor.getColumnIndex(ShareDatabaseHelper.PERSON_COLUMN_PHONE));
+                    aCursor.getColumnIndex(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED));
             //Log.d(TAG,"LOFASZ - phoneNum = " + phoneNum);
             output.append("\n Phone Num:" + phoneNum);
 
@@ -132,7 +126,7 @@ public class ContactShareModel extends GenericShareModel {
         Log.d(TAG, "Share database: " + output.toString());
     }
 
-    private void insertContactIntoShareDatabase(Cursor aCursor){
+    /*private void insertContactIntoShareDatabase(Cursor aCursor){
 
         int contactIdx = aCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
         int nameIdx = aCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
@@ -146,7 +140,7 @@ public class ContactShareModel extends GenericShareModel {
         String phoneNum = aCursor.getString(phoneNumberIdx);
         Log.d(TAG,"LOFASZ - phoneNum = " + phoneNum);
 
-        dbOperations.insertContact(name, phoneNum);
+        dbOperations.insertTemplateItem(name, phoneNum);
         Log.d(TAG,"LOFASZ - inserting contact into the database...");
-    }
+    }*/
 }

@@ -6,10 +6,6 @@ package com.forcetechsoft.financeplanner.common;
 
 import android.util.Log;
 
-import com.forcetechsoft.financeplanner.database.ShareDatabaseHelper;
-
-import java.io.Serializable;
-
 /**
  * This class provides a framework for mediating access to the Model
  * layer in the Model-View-Presenter pattern.
@@ -45,13 +41,7 @@ public class GenericPresenter<RequiredPresenterOps,
             // Initialize the GenericPresenter fields.
             initialize(opsType,
                     presenter);
-        } catch (InstantiationException e) {
-            Log.d(TAG,
-                    "handleConfiguration "
-                            + e);
-            // Propagate this as a runtime exception.
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e ) {
             Log.d(TAG,
                     "handleConfiguration "
                             + e);
