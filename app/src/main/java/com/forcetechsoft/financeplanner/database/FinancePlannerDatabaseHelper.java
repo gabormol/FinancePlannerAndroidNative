@@ -25,6 +25,15 @@ public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
     public static final String TIMESHEET_COLUMN_EXPENSE_NAME = "expense_name";
     public static final String TIMESHEET_COLUMN_EXPENSE_PLANNED = "planned";
     public static final String TIMESHEET_COLUMN_EXPENSE_PAID = "paid";
+    public static final String USER_TABLE_NAME = "users";
+    public static final String USER_COLUMN_ID = "_id";
+    public static final String USER_COLUMN_USER_NAME = "username";
+    public static final String USER_COLUMN_USER_TOKEN = "token";
+    public static final String USER_COLUMN_ADMIN = "admin";
+    public static final String USER_COLUMN_CURRENCY_DECIMALS = "curr_decimals";
+    public static final String USER_COLUMN_CURRENCY_SYMBOL = "curr_symbol";
+    public static final String USER_COLUMN_FIRST_NAME = "first_name";
+    public static final String USER_COLUMN_LAST_NAME = "last_name";
 
     public FinancePlannerDatabaseHelper(Context context) {
         super(context, DATABASE_NAME , null, DATABASE_VERSION);
@@ -51,12 +60,25 @@ public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
                         TIMESHEET_COLUMN_EXPENSE_PLANNED + " TEXT, " +
                         TIMESHEET_COLUMN_EXPENSE_PAID +" TEXT)"
         );
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME); // FOR TEST - remove it later!!!
+        db.execSQL(
+                "CREATE TABLE " + USER_TABLE_NAME +
+                        "(" + USER_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                        USER_COLUMN_USER_NAME + " TEXT, " +
+                        USER_COLUMN_USER_TOKEN + " TEXT, " +
+                        USER_COLUMN_ADMIN + " BOOLEAN, " +
+                        USER_COLUMN_CURRENCY_DECIMALS + " TEXT, " +
+                        USER_COLUMN_CURRENCY_SYMBOL + " TEXT, " +
+                        USER_COLUMN_FIRST_NAME + " TEXT, " +
+                        USER_COLUMN_LAST_NAME +" TEXT)"
+        );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TEMPLATE_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TIMESHEET_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         onCreate(db);
     }
 }

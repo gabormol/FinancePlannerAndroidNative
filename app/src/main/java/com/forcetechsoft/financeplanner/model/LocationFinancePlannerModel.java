@@ -5,10 +5,15 @@ import android.content.Context;
 /**
  * Created by egbomol on 3/25/2016.
  */
-public class LocationShareModel extends GenericShareModel {
+public class LocationFinancePlannerModel extends GenericFinancePlannerModel {
     @Override
-    public void fetchContacts(Context aContext) {
+    public void logIn(Context aContext) {
 
+    }
+
+    @Override
+    public boolean isUserLoggedIn(Context aContext) {
+        return false;
     }
 
     @Override

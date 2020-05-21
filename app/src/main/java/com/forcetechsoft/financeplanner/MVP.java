@@ -68,9 +68,9 @@ public interface MVP {
     public interface ProvidedModelOps
             extends ModelOps<RequiredPresenterOps> {
 
-        public void fetchContacts(Context aContext);
+        public void logIn(Context aContext);
+        public boolean isUserLoggedIn(Context aContext);
         public void returnAllContactsInLogd(Context aContext);
-
 
     }
 }

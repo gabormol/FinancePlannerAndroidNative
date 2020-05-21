@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by egbomol on 4/12/2016.
  */
-public class ShareDatabaseOperations {
+public class FinancePlannerDatabaseOperations {
 
     private FinancePlannerDatabaseHelper dbHelper;
     private String[] TEMPLATE_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID,
@@ -22,9 +22,15 @@ public class ShareDatabaseOperations {
             FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED,
             FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID};
 
+    private String[] USER_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.USER_COLUMN_ID,
+            FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME, FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN,
+            FinancePlannerDatabaseHelper.USER_COLUMN_ADMIN, FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_DECIMALS,
+            FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_SYMBOL, FinancePlannerDatabaseHelper.USER_COLUMN_FIRST_NAME,
+            FinancePlannerDatabaseHelper.USER_COLUMN_LAST_NAME};
+
     private SQLiteDatabase database;
 
-    public ShareDatabaseOperations(Context context) {
+    public FinancePlannerDatabaseOperations(Context context) {
         dbHelper = new FinancePlannerDatabaseHelper(context);
     }
 
@@ -65,6 +71,23 @@ public class ShareDatabaseOperations {
         return true;
     }
 
+    public boolean insertUserItem(String userName, String token, boolean admin, String currencyDecimals, String currencySymbol,
+                                       String firstName, String lastName) {
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(FinancePlannerDatabaseHelper.USER_TABLE_NAME, userName);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN, token);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_ADMIN, admin);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_DECIMALS, currencyDecimals);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_SYMBOL, currencySymbol);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_FIRST_NAME, firstName);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_LAST_NAME, lastName);
+
+        long studId = database.insert(FinancePlannerDatabaseHelper.USER_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
     public int numberOfTemplateRows() {
         int numRows = (int) DatabaseUtils.queryNumEntries(
                 database, FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME);
@@ -74,6 +97,12 @@ public class ShareDatabaseOperations {
     public int numberOfTimesheetRows() {
         int numRows = (int) DatabaseUtils.queryNumEntries(
                 database, FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME);
+        return numRows;
+    }
+
+    public int numberOfUserRows() {
+        int numRows = (int) DatabaseUtils.queryNumEntries(
+                database, FinancePlannerDatabaseHelper.USER_TABLE_NAME);
         return numRows;
     }
 
@@ -106,6 +135,24 @@ public class ShareDatabaseOperations {
         return true;
     }
 
+    public boolean updateUserItem(Integer id, String userName, String token, boolean admin, String currencyDecimals, String currencySymbol,
+                                  String firstName, String lastName) {
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(FinancePlannerDatabaseHelper.USER_TABLE_NAME, userName);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN, token);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_ADMIN, admin);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_DECIMALS, currencyDecimals);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_SYMBOL, currencySymbol);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_FIRST_NAME, firstName);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_LAST_NAME, lastName);
+
+        database.update(FinancePlannerDatabaseHelper.USER_TABLE_NAME, contentValues,
+                FinancePlannerDatabaseHelper.USER_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return true;
+    }
+
     public Integer deleteTemplateItem(Integer id) {
         return database.delete(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME,
                 FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID + " = ? ",
@@ -115,6 +162,12 @@ public class ShareDatabaseOperations {
     public Integer deleteTimesheetItem(Integer id) {
         return database.delete(FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME,
                 FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID + " = ? ",
+                new String[]{Integer.toString(id)});
+    }
+
+    public Integer deleteUserItem(Integer id) {
+        return database.delete(FinancePlannerDatabaseHelper.USER_TABLE_NAME,
+                FinancePlannerDatabaseHelper.USER_COLUMN_ID + " = ? ",
                 new String[]{Integer.toString(id)});
     }
 
@@ -132,6 +185,13 @@ public class ShareDatabaseOperations {
         return res;
     }
 
+    public Cursor getUserItem(int id) {
+        Cursor res = database.rawQuery("SELECT * FROM " + FinancePlannerDatabaseHelper.USER_TABLE_NAME
+                        + " WHERE " + FinancePlannerDatabaseHelper.USER_COLUMN_ID + "=?",
+                new String[]{Integer.toString(id)});
+        return res;
+    }
+
     public Cursor getAllTemplateItems() {
         Cursor res = database.rawQuery("SELECT * FROM "
                 + FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, null);
@@ -141,6 +201,12 @@ public class ShareDatabaseOperations {
     public Cursor getAllTimesheetItems() {
         Cursor res = database.rawQuery("SELECT * FROM "
                 + FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME, null);
+        return res;
+    }
+
+    public Cursor getAllUserItems() {
+        Cursor res = database.rawQuery("SELECT * FROM "
+                + FinancePlannerDatabaseHelper.USER_TABLE_NAME, null);
         return res;
     }
 }

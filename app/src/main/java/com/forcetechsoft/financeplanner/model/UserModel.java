@@ -10,10 +10,10 @@ import com.forcetechsoft.financeplanner.database.FinancePlannerDatabaseHelper;
 /**
  * Created by egbomol on 3/25/2016.
  */
-public class ContactShareModel extends GenericShareModel {
+public class UserModel extends GenericFinancePlannerModel {
 
 
-    public void fetchContacts(Context aContext) {
+    public void logIn(Context aContext) {
 
         Log.d(TAG, "LOFASZ - Fetching contacts started...");
 
@@ -79,6 +79,11 @@ public class ContactShareModel extends GenericShareModel {
                 }
             }*/
         }
+    }
+
+    @Override
+    public boolean isUserLoggedIn(Context aContext) {
+        return false;
     }
 
     @Override

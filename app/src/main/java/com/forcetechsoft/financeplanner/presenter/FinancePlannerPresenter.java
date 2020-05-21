@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import com.forcetechsoft.financeplanner.MVP;
 import com.forcetechsoft.financeplanner.common.GenericPresenter;
-import com.forcetechsoft.financeplanner.model.ContactShareModel;
+import com.forcetechsoft.financeplanner.model.UserModel;
 
 /**
  * Created by egbomol on 3/25/2016.
@@ -12,7 +12,7 @@ import com.forcetechsoft.financeplanner.model.ContactShareModel;
 public class FinancePlannerPresenter
         extends GenericPresenter<MVP.RequiredPresenterOps,
                 MVP.ProvidedModelOps,
-                ContactShareModel>
+        UserModel>
         implements MVP.ProvidedPresenterOps,
         MVP.RequiredPresenterOps {
 
@@ -37,7 +37,7 @@ public class FinancePlannerPresenter
         applicationContext = view.getApplicationContext();
         activityContext = view.getActivityContext();
 
-        super.onCreate(ContactShareModel.class,
+        super.onCreate(UserModel.class,
                 this);
 
     }
@@ -57,7 +57,7 @@ public class FinancePlannerPresenter
     @Override
     public void createContactDatabase() {
         Log.d(TAG, "LOFASZ - Presenter requesting DB creation from Model");
-        getModel().fetchContacts(getApplicationContext());
+        getModel().logIn(getApplicationContext());
     }
 
     @Override

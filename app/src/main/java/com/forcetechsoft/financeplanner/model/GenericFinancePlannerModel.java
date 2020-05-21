@@ -3,18 +3,18 @@ package com.forcetechsoft.financeplanner.model;
 import android.util.Log;
 
 import com.forcetechsoft.financeplanner.MVP;
-import com.forcetechsoft.financeplanner.database.ShareDatabaseOperations;
+import com.forcetechsoft.financeplanner.database.FinancePlannerDatabaseOperations;
 
 import java.lang.ref.WeakReference;
 
 /**
  * Created by egbomol on 3/25/2016.
  */
-public abstract class GenericShareModel implements MVP.ProvidedModelOps  {
+public abstract class GenericFinancePlannerModel implements MVP.ProvidedModelOps  {
 
     protected final String TAG =
             getClass().getSimpleName();
-    protected ShareDatabaseOperations dbOperations;
+    protected FinancePlannerDatabaseOperations dbOperations;
     protected WeakReference<MVP.RequiredPresenterOps> mImagePresenter;
 
     @Override
@@ -24,7 +24,7 @@ public abstract class GenericShareModel implements MVP.ProvidedModelOps  {
         mImagePresenter =
                 new WeakReference<>(presenter);
 
-        dbOperations = new ShareDatabaseOperations(mImagePresenter.get().getApplicationContext());
+        dbOperations = new FinancePlannerDatabaseOperations(mImagePresenter.get().getApplicationContext());
         dbOperations.open();
 
     }
