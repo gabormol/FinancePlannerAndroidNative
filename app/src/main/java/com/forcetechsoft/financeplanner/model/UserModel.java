@@ -49,6 +49,16 @@ public class UserModel extends GenericFinancePlannerModel {
                                 Log.d(TAG, "LOFASZ: onSuccess() status:" + loginStatus.getStatus());
                                 Log.d(TAG, "LOFASZ: onSuccess() success:" + loginStatus.getSuccess());
                                 Log.d(TAG, "LOFASZ: onSuccess() token:" + loginStatus.getToken());
+                                dbOperations.insertUserItem("lofasz", loginStatus.getToken(),
+                                        false, " ", " "," "," ");
+                                Cursor aCursor = dbOperations.getUserItem("lofasz");
+                                aCursor.moveToFirst();
+                                Log.d(TAG, "LOFASZ: read from Database: " +
+                                        aCursor.getString(
+                                                aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME))
+                                        + " token: " + aCursor.getString(
+                                        aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN)));
+
                             }
 
                             @Override
@@ -66,14 +76,6 @@ public class UserModel extends GenericFinancePlannerModel {
 
         Log.d(TAG, "RESPONSE: " + response);
     }
-
-        /*Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:3000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();*/
-
-    //}
 
     @Override
     public boolean isUserLoggedIn(Context aContext) {

@@ -11,7 +11,7 @@ import android.util.Log;
 public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "SQLiteFinancePlanner.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 10;
 
     public static final String TEMPLATE_TABLE_NAME = "template";
     public static final String TEMPLATE_COLUMN_ID = "_id";
@@ -63,7 +63,7 @@ public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME); // FOR TEST - remove it later!!!
         db.execSQL(
                 "CREATE TABLE " + USER_TABLE_NAME +
-                        "(" + USER_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                        "(" + USER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         USER_COLUMN_USER_NAME + " TEXT, " +
                         USER_COLUMN_USER_TOKEN + " TEXT, " +
                         USER_COLUMN_ADMIN + " BOOLEAN, " +

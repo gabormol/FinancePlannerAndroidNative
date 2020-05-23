@@ -76,7 +76,7 @@ public class FinancePlannerDatabaseOperations {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(FinancePlannerDatabaseHelper.USER_TABLE_NAME, userName);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME, userName);
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN, token);
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_ADMIN, admin);
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_DECIMALS, currencyDecimals);
@@ -135,12 +135,12 @@ public class FinancePlannerDatabaseOperations {
         return true;
     }
 
-    public boolean updateUserItem(Integer id, String userName, String token, boolean admin, String currencyDecimals, String currencySymbol,
+    public boolean updateUserItem(String userName, String token, boolean admin, String currencyDecimals, String currencySymbol,
                                   String firstName, String lastName) {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(FinancePlannerDatabaseHelper.USER_TABLE_NAME, userName);
+        contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME, userName);
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN, token);
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_ADMIN, admin);
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_CURRENCY_DECIMALS, currencyDecimals);
@@ -149,7 +149,7 @@ public class FinancePlannerDatabaseOperations {
         contentValues.put(FinancePlannerDatabaseHelper.USER_COLUMN_LAST_NAME, lastName);
 
         database.update(FinancePlannerDatabaseHelper.USER_TABLE_NAME, contentValues,
-                FinancePlannerDatabaseHelper.USER_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+                FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME + " = ? ", new String[]{userName});
         return true;
     }
 
@@ -165,10 +165,10 @@ public class FinancePlannerDatabaseOperations {
                 new String[]{Integer.toString(id)});
     }
 
-    public Integer deleteUserItem(Integer id) {
+    public Integer deleteUserItem(String name) {
         return database.delete(FinancePlannerDatabaseHelper.USER_TABLE_NAME,
-                FinancePlannerDatabaseHelper.USER_COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(id)});
+                FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME + " = ? ",
+                new String[]{name});
     }
 
     public Cursor getTemplateItem(int id) {
@@ -185,10 +185,10 @@ public class FinancePlannerDatabaseOperations {
         return res;
     }
 
-    public Cursor getUserItem(int id) {
+    public Cursor getUserItem(String username) {
         Cursor res = database.rawQuery("SELECT * FROM " + FinancePlannerDatabaseHelper.USER_TABLE_NAME
-                        + " WHERE " + FinancePlannerDatabaseHelper.USER_COLUMN_ID + "=?",
-                new String[]{Integer.toString(id)});
+                        + " WHERE " + FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME + "=?",
+                new String[]{username});
         return res;
     }
 
