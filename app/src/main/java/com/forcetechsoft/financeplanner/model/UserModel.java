@@ -6,80 +6,74 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.forcetechsoft.financeplanner.database.FinancePlannerDatabaseHelper;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import org.reactivestreams.Subscriber;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by egbomol on 3/25/2016.
  */
 public class UserModel extends GenericFinancePlannerModel {
 
+    private Retrofit retrofit;
 
     public void logIn(Context aContext) {
 
-        Log.d(TAG, "LOFASZ - Fetching contacts started...");
+        Log.d(TAG, "LOFASZ: Starting login process...");
 
-        String phoneNumber = null;
-        String email = null;
+        new Thread(new Runnable() {
 
-        /*Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
-        String _ID = ContactsContract.Contacts._ID;
-        String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
-        String HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER;
-        Uri PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
-        String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
-        Uri EmailCONTENT_URI = ContactsContract.CommonDataKinds.Email.CONTENT_URI;
-        String EmailCONTACT_ID = ContactsContract.CommonDataKinds.Email.CONTACT_ID;
-        String DATA = ContactsContract.CommonDataKinds.Email.DATA;
-        //StringBuffer output = new StringBuffer();
-        ContentResolver contentResolver = aContext.getContentResolver();
-        Cursor cursor = contentResolver.query(CONTENT_URI, null, null, null, null);*/
-        Cursor cursor = aContext.getContentResolver()
-                .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-        Log.d(TAG, "LOFASZ - cursor received from ContentResolver...");
-        Log.d(TAG, "LOFASZ - cursor columns: " + cursor.getColumnCount());
-        Log.d(TAG, "LOFASZ - cursor rows: " + cursor.getCount());
+            @Override
+            public void run() {
+                retrofit = ApiUtils.getClient(ApiUtils.BASE_URL);
+                ApiService apiService = retrofit.create(ApiService.class);
+                Log.d(TAG, "LOFASZ: Sending POST request");
+                apiService.logIn("lofasz", "lofasz")
+                        .subscribe(new SingleObserver<LoginStatus>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.d(TAG, "LOFASZ: onSubscribe");
+                            }
 
-        cursor.moveToFirst(); // move to the first row of the cursor
+                            @Override
+                            public void onSuccess(LoginStatus loginStatus) {
+                                Log.d(TAG, "LOFASZ: onSuccess() status:" + loginStatus.getStatus());
+                                Log.d(TAG, "LOFASZ: onSuccess() success:" + loginStatus.getSuccess());
+                                Log.d(TAG, "LOFASZ: onSuccess() token:" + loginStatus.getToken());
+                            }
 
-        Log.d(TAG, "LOFASZ - starting iterating the cursor...");
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(TAG, "LOFASZ: onError: " + e);
+                            }
+                        });
 
-       // Loop for every contact in the phone
-        if (cursor.getCount() > 0) {
-
-            Log.d(TAG,"LOFASZ - Beginning iteration on Cursor...");
-
-            int cursorRows = cursor.getCount();
-
-            for (int i=0; i<cursorRows; i++){
-                //insertContactIntoShareDatabase(cursor);
-                cursor.moveToNext();
+                Log.d(TAG, "LOFASZ: POST returned");
             }
-
-            /*insertContactIntoShareDatabase(cursor);
-
-            while (cursor.moveToNext()) { // move the cursor to the next row
-                insertContactIntoShareDatabase(cursor);
-
-                /*int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(HAS_PHONE_NUMBER)));
-
-                if (hasPhoneNumber > 0) {
-
-                    dbOperations.insertContact(name, phoneNum);
-                    Log.d(TAG,"LOFASZ - inserting contact into the database...");
-                    //output.append("\n First Name:" + name);
-                    // Query and loop for every phone number of the contact
-                    /*Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[]{contact_id}, null);
-
-                    while (phoneCursor.moveToNext()) {
-                        phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
-                        output.append("\n Phone number:" + phoneNumber);
-                    }
-
-                    phoneCursor.close();
-                }
-            }*/
-        }
+        }).start();
     }
+
+    public void showResponse(String response) {
+
+        Log.d(TAG, "RESPONSE: " + response);
+    }
+
+        /*Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();*/
+
+    //}
 
     @Override
     public boolean isUserLoggedIn(Context aContext) {
@@ -103,7 +97,7 @@ public class UserModel extends GenericFinancePlannerModel {
         Log.d(TAG, "LOFASZ - returnAllContactsInLogd Cursor size: " + rowNum);
         aCursor.moveToFirst();
 
-        for (int i=0; i < rowNum; i++) {
+        for (int i = 0; i < rowNum; i++) {
 
             Log.d(TAG, "LOFASZ - cursor moved to next...");
 
