@@ -2,74 +2,42 @@ package com.forcetechsoft.financeplanner.model;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.util.Log;
-
 import com.forcetechsoft.financeplanner.database.FinancePlannerDatabaseHelper;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import org.reactivestreams.Subscriber;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.forcetechsoft.financeplanner.model.services.CommunicationService;
+import com.forcetechsoft.financeplanner.model.services.SimpleCallback;
 
 /**
  * Created by egbomol on 3/25/2016.
  */
 public class UserModel extends GenericFinancePlannerModel {
 
-    private Retrofit retrofit;
+    CommunicationService communicationService = CommunicationService.INSTANCE;
 
     public void logIn(Context aContext) {
 
         Log.d(TAG, "LOFASZ: Starting login process...");
 
-        new Thread(new Runnable() {
 
-            @Override
-            public void run() {
-                retrofit = ApiUtils.getClient(ApiUtils.BASE_URL);
-                ApiService apiService = retrofit.create(ApiService.class);
-                Log.d(TAG, "LOFASZ: Sending POST request");
-                apiService.logIn("lofasz", "lofasz")
-                        .subscribe(new SingleObserver<LoginStatus>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                Log.d(TAG, "LOFASZ: onSubscribe");
-                            }
+        communicationService.loginToBackend("lofasz", "lofasz", dbOperations,
+                new SimpleCallback() {
 
-                            @Override
-                            public void onSuccess(LoginStatus loginStatus) {
-                                Log.d(TAG, "LOFASZ: onSuccess() status:" + loginStatus.getStatus());
-                                Log.d(TAG, "LOFASZ: onSuccess() success:" + loginStatus.getSuccess());
-                                Log.d(TAG, "LOFASZ: onSuccess() token:" + loginStatus.getToken());
-                                dbOperations.insertUserItem("lofasz", loginStatus.getToken(),
-                                        false, " ", " "," "," ");
-                                Cursor aCursor = dbOperations.getUserItem("lofasz");
-                                aCursor.moveToFirst();
-                                Log.d(TAG, "LOFASZ: read from Database: " +
-                                        aCursor.getString(
-                                                aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME))
-                                        + " token: " + aCursor.getString(
-                                        aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN)));
+                    @Override
+                    public void onSuccess() {
+                        Cursor aCursor = dbOperations.getUserItem("lofasz");
+                        aCursor.moveToFirst();
+                        Log.d(TAG, "LOFASZ: read from Database: " +
+                                aCursor.getString(
+                                        aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME))
+                                + " token: " + aCursor.getString(
+                                aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN)));
+                    }
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d(TAG, "LOFASZ: onError: " + e);
-                            }
-                        });
-
-                Log.d(TAG, "LOFASZ: POST returned");
-            }
-        }).start();
+                    @Override
+                    public void onError() {
+                        Log.d(TAG, "LOFASZ: LOGIN failed!!!");
+                    }
+                });
     }
 
     public void showResponse(String response) {

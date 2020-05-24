@@ -11,11 +11,6 @@ public class ApiUtils {
 
     public static final String BASE_URL = "http://192.168.0.111:3000/";
 
-    public static ApiService getAPIService() {
-
-        return RetrofitClient.getClient(BASE_URL).create(ApiService.class);
-    }
-
     public static Retrofit getClient(String baseUrl) {
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
