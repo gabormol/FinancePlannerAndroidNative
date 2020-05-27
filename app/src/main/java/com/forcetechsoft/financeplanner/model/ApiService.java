@@ -1,9 +1,9 @@
 package com.forcetechsoft.financeplanner.model;
 
 import io.reactivex.Single;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.*;
+
+import java.util.List;
 
 public interface ApiService {
 
@@ -11,4 +11,9 @@ public interface ApiService {
     @FormUrlEncoded
     Single<LoginStatus> logIn(@Field("username") String username,
                               @Field("password") String password);
+
+    @Headers({"token-expiration-ignore: true"})
+    @GET("users/mydata")
+    Single<List<UserData>> myData(@Header("x-access-token") String jwtToken);
+
 }
