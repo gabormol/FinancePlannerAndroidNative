@@ -14,6 +14,7 @@ public class UserModel extends GenericFinancePlannerModel {
 
     CommunicationService communicationService = CommunicationService.INSTANCE;
 
+    @Override
     public void logIn(final Context aContext) {
 
         Log.d(TAG, "LOFASZ: Starting login process...");
@@ -31,7 +32,7 @@ public class UserModel extends GenericFinancePlannerModel {
                                         aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME))
                                 + " token: " + aCursor.getString(
                                 aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN)));
-                        myData(aContext); // TODO: Remove this chaining later!!!
+                        //myData(aContext); // TODO: Remove this chaining later!!!
                     }
 
                     @Override
@@ -42,10 +43,14 @@ public class UserModel extends GenericFinancePlannerModel {
     }
 
     @Override
+    public void logOut() {
+        dbOperations.deleteUserItem(dbOperations.getUserName());
+    }
+
+    @Override
     public void myData(Context aContext) {
-        Cursor aCursor = dbOperations.getUserItem("lofasz"); // TODO: make it more dynamic!!!
-        aCursor.moveToFirst();
-        String token = aCursor.getString(aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN));
+        String token = dbOperations.getUserToken(dbOperations.getUserName());
+        //Log.d(TAG, "LOFASZ: User name: " + dbOperations.getUserName());
         communicationService.getMyData(token, dbOperations,
                 new SimpleCallback() {
 

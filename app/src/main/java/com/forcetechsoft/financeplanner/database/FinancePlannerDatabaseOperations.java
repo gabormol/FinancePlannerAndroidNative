@@ -192,6 +192,21 @@ public class FinancePlannerDatabaseOperations {
         return res;
     }
 
+    public String getUserName() {
+        Cursor cursor = database.query(FinancePlannerDatabaseHelper.USER_TABLE_NAME, new String[] {FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME},
+                null, null, null, null, null);
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME));
+    }
+
+    public String getUserToken(String username) {
+        Cursor cursor = database.rawQuery("SELECT * FROM " + FinancePlannerDatabaseHelper.USER_TABLE_NAME
+                        + " WHERE " + FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME + "=?",
+                new String[]{username});
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN));
+    }
+
     public Cursor getAllTemplateItems() {
         Cursor res = database.rawQuery("SELECT * FROM "
                 + FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, null);

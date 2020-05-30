@@ -46,9 +46,9 @@ public enum CommunicationService {
                                 Log.d(TAG, "LOFASZ: onSuccess() status:" + loginStatus.getStatus());
                                 Log.d(TAG, "LOFASZ: onSuccess() success:" + loginStatus.getSuccess());
                                 Log.d(TAG, "LOFASZ: onSuccess() token:" + loginStatus.getToken());
-                                callback.onSuccess();
                                 dbOperations.insertUserItem(username, loginStatus.getToken(),
                                         false, " ", " "," "," ");
+                                callback.onSuccess();
                             }
 
                             @Override
