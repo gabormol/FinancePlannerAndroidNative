@@ -48,6 +48,55 @@ public class UserModel extends GenericFinancePlannerModel {
     }
 
     @Override
+    public void myExpenses(Context aContext) {
+        Log.d(TAG, "LOFASZ: Getting expenses...");
+        String token = dbOperations.getUserToken(dbOperations.getUserName());
+        communicationService.getMyExpenses(token, dbOperations,
+                new SimpleCallback() {
+
+                    @Override
+                    public void onSuccess() {
+                        Cursor aCursor = dbOperations.getAllTemplateItems();
+                        aCursor.moveToFirst();
+                        Log.d(TAG, "LOFASZ: read from Database: ");
+                        String[] columnNames = aCursor.getColumnNames();
+                        String cursorString = "";
+                        for (String name: columnNames)
+                            cursorString += String.format("%s ][ ", name);
+                        do {
+                            for (String name: columnNames) {
+                                cursorString += String.format("%s ][ ",
+                                        aCursor.getString(aCursor.getColumnIndex(name)));
+                            }
+                            cursorString += "\n";
+                        } while (aCursor.moveToNext());
+                        Log.d(TAG, "Database content: " + cursorString);
+                        //Log.d(TAG, "LOFASZ: read from Database: " +
+                        //        aCursor.getString(
+                        //                aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_NAME))
+                        //        + " token: " + aCursor.getString(
+                        //        aCursor.getColumnIndex(FinancePlannerDatabaseHelper.USER_COLUMN_USER_TOKEN)));
+                        //myData(aContext); // TODO: Remove this chaining later!!!
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d(TAG, "LOFASZ: LOGIN failed!!!");
+                    }
+                });
+    }
+
+    @Override
+    public void myTimesheet(Context aContext) {
+
+    }
+
+    @Override
+    public void myStatictics(Context aContext) {
+
+    }
+
+    @Override
     public void myData(Context aContext) {
         String token = dbOperations.getUserToken(dbOperations.getUserName());
         //Log.d(TAG, "LOFASZ: User name: " + dbOperations.getUserName());
@@ -86,7 +135,7 @@ public class UserModel extends GenericFinancePlannerModel {
     @Override
     public void returnAllContactsInLogd(Context aContext) {
 
-        String contact_id;
+        /*String contact_id;
         String name;
         String phoneNum;
 
@@ -123,9 +172,9 @@ public class UserModel extends GenericFinancePlannerModel {
             Log.d(TAG,"LOFASZ - inserting contact into the database...");
             phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
             output.append("\n Phone number:" + phoneNumber);*/
-        }
+        /*}
 
-        Log.d(TAG, "Share database: " + output.toString());
+        Log.d(TAG, "Share database: " + output.toString());*/
     }
 
     /*private void insertContactIntoShareDatabase(Cursor aCursor){

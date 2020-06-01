@@ -70,6 +70,9 @@ public interface MVP {
 
         public void logIn(Context aContext);
         public void logOut();
+        public void myExpenses(Context aContext);
+        public void myTimesheet(Context aContext);
+        public void myStatictics(Context aContext);
         public void myData(Context aContext);
         public boolean isUserLoggedIn(Context aContext);
         public void returnAllContactsInLogd(Context aContext);

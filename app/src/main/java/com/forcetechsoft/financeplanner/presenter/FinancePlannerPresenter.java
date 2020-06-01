@@ -58,7 +58,8 @@ public class FinancePlannerPresenter
     public void createContactDatabase() {
         Log.d(TAG, "LOFASZ - Presenter requesting DB creation from Model");
         //getModel().logIn(getApplicationContext());
-        getModel().myData(getApplicationContext());
+        //getModel().myData(getApplicationContext());
+        getModel().myExpenses(getApplicationContext());
         //getModel().logOut();
     }
 

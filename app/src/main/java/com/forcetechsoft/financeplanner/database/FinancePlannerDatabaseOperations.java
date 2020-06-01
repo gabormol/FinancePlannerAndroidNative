@@ -14,12 +14,13 @@ public class FinancePlannerDatabaseOperations {
 
     private FinancePlannerDatabaseHelper dbHelper;
     private String[] TEMPLATE_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID,
-            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED,
-            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH,
-            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_DUE_TO};
+            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_ID, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME,
+            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY,
+            FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH, FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_DUE_TO};
 
     private String[] TIMESHEET_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID,
-            FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED,
+            FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_TIMESHEET_ID, FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME,
+            FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_ID, FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED,
             FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID};
 
     private String[] USER_TABLE_COLUMNS = {FinancePlannerDatabaseHelper.USER_COLUMN_ID,
@@ -42,13 +43,14 @@ public class FinancePlannerDatabaseOperations {
         dbHelper.close();
     }
 
-    public boolean insertTemplateItem(String expenseName, String expensePlanned,
-                                      String expenseFrequency, String expenseNextMonth,
-                                      String expenseDueTo) {
+    public boolean insertTemplateItem(String expenseName, String expenseId,
+                                      int expensePlanned, int expenseFrequency,
+                                      int expenseNextMonth, int expenseDueTo) {
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME, expenseName);
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_ID, expenseId);
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED, expensePlanned);
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY, expenseFrequency);
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH, expenseNextMonth);
@@ -58,11 +60,13 @@ public class FinancePlannerDatabaseOperations {
         return true;
     }
 
-    public boolean insertTimesheetItem(String expenseName, String expensePlanned,
-                                       String expensePaid) {
+    public boolean insertTimesheetItem(String timesheetId, String expenseId, String expenseName,
+                                       int expensePlanned, int expensePaid) {
 
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_TIMESHEET_ID, timesheetId);
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_ID, expenseId);
         contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, expenseName);
         contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED, expensePlanned);
         contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID, expensePaid);
@@ -106,10 +110,11 @@ public class FinancePlannerDatabaseOperations {
         return numRows;
     }
 
-    public boolean updateTemplateItem(Integer id, String expenseName, String expensePlanned,
-                                      String expenseFrequency, String expenseNextMonth,
-                                      String expenseDueTo) {
+    public boolean updateTemplateItem(Integer id, String expenseId, String expenseName,
+                                      int expensePlanned, int expenseFrequency,
+                                      int expenseNextMonth, int expenseDueTo) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_ID, expenseId);
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_NAME, expenseName);
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_PLANNED, expensePlanned);
         contentValues.put(FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_EXPENSE_FREQUENCY, expenseFrequency);
@@ -121,11 +126,14 @@ public class FinancePlannerDatabaseOperations {
         return true;
     }
 
-    public boolean updateTimesheetItem(Integer id, String expenseName, String expensePlanned,
-                                       String expensePaid) {
+    public boolean updateTimesheetItem(Integer id, String timesheetId, String expenseId,
+                                       String expenseName, int expensePlanned,
+                                       int expensePaid) {
 
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_TIMESHEET_ID, timesheetId);
+        contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_ID, expenseId);
         contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_NAME, expenseName);
         contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PLANNED, expensePlanned);
         contentValues.put(FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_EXPENSE_PAID, expensePaid);
@@ -157,6 +165,10 @@ public class FinancePlannerDatabaseOperations {
         return database.delete(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME,
                 FinancePlannerDatabaseHelper.TEMPLATE_COLUMN_ID + " = ? ",
                 new String[]{Integer.toString(id)});
+    }
+
+    public void deleteAllTemplateItems(){
+        database.delete(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, null, null);
     }
 
     public Integer deleteTimesheetItem(Integer id) {

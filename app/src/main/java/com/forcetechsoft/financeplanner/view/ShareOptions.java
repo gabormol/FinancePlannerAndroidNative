@@ -151,7 +151,7 @@ public class ShareOptions extends GenericActivity<MVP.RequiredViewOps,
         Log.d(TAG, "LOFASZ - creating database...");
         Log.d(TAG, "LOFASZ - presenter type: " + getPresenter().getClass().getName());
         super.getPresenter().createContactDatabase(); // FOR TEST
-        super.getPresenter().getDatabaseDump(); // FOR TEST
+        //super.getPresenter().getDatabaseDump(); // FOR TEST
         //goBackToMainActivity();
     }
 

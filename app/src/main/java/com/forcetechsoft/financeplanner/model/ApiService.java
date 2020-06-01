@@ -16,4 +16,16 @@ public interface ApiService {
     @GET("users/mydata")
     Single<List<UserData>> myData(@Header("x-access-token") String jwtToken);
 
+    @Headers({"token-expiration-ignore: true"})
+    @GET("/expenses")
+    Single<List<Expense>> myExpenses(@Header("x-access-token") String jwtToken);
+
+    @Headers({"token-expiration-ignore: true"})
+    @GET("/statistics")
+    Single<List<StatisticItem>> myStatictics(@Header("x-access-token") String jwtToken);
+
+    @Headers({"token-expiration-ignore: true"})
+    @GET("/timesheets")
+    Single<List<TimesheetItem>> myTimesheet(@Header("x-access-token") String jwtToken);
+
 }

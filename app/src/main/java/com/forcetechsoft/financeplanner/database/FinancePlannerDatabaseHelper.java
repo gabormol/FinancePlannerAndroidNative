@@ -11,10 +11,11 @@ import android.util.Log;
 public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "SQLiteFinancePlanner.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     public static final String TEMPLATE_TABLE_NAME = "template";
     public static final String TEMPLATE_COLUMN_ID = "_id";
+    public static final String TEMPLATE_COLUMN_EXPENSE_ID = "mng_id";
     public static final String TEMPLATE_COLUMN_EXPENSE_NAME = "expense_name";
     public static final String TEMPLATE_COLUMN_EXPENSE_PLANNED = "planned";
     public static final String TEMPLATE_COLUMN_EXPENSE_FREQUENCY = "frequency";
@@ -22,6 +23,8 @@ public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
     public static final String TEMPLATE_COLUMN_EXPENSE_DUE_TO = "due_to";
     public static final String TIMESHEET_TABLE_NAME = "timesheet";
     public static final String TIMESHEET_COLUMN_ID = "_id";
+    public static final String TIMESHEET_COLUMN_TIMESHEET_ID = "mng_id_ts";
+    public static final String TIMESHEET_COLUMN_EXPENSE_ID = "mng_id_tsitem";
     public static final String TIMESHEET_COLUMN_EXPENSE_NAME = "expense_name";
     public static final String TIMESHEET_COLUMN_EXPENSE_PLANNED = "planned";
     public static final String TIMESHEET_COLUMN_EXPENSE_PAID = "paid";
@@ -45,20 +48,23 @@ public class FinancePlannerDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TEMPLATE_TABLE_NAME); // FOR TEST - remove it later!!!
         db.execSQL(
                 "CREATE TABLE " + TEMPLATE_TABLE_NAME +
-                        "(" + TEMPLATE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                        "(" + TEMPLATE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        TEMPLATE_COLUMN_EXPENSE_ID + " TEXT, " +
                         TEMPLATE_COLUMN_EXPENSE_NAME + " TEXT, " +
-                        TEMPLATE_COLUMN_EXPENSE_PLANNED + " TEXT, " +
-                        TEMPLATE_COLUMN_EXPENSE_FREQUENCY + " TEXT, " +
-                        TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH +" TEXT, " +
-                        TEMPLATE_COLUMN_EXPENSE_DUE_TO +" TEXT)"
+                        TEMPLATE_COLUMN_EXPENSE_PLANNED + " INTEGER, " +
+                        TEMPLATE_COLUMN_EXPENSE_FREQUENCY + " INTEGER, " +
+                        TEMPLATE_COLUMN_EXPENSE_NEXT_MONTH +" INTEGER, " +
+                        TEMPLATE_COLUMN_EXPENSE_DUE_TO +" INTEGER)"
         );
         db.execSQL("DROP TABLE IF EXISTS " + TIMESHEET_TABLE_NAME); // FOR TEST - remove it later!!!
         db.execSQL(
                 "CREATE TABLE " + TIMESHEET_TABLE_NAME +
-                        "(" + TIMESHEET_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                        "(" + TIMESHEET_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        TIMESHEET_COLUMN_TIMESHEET_ID + " TEXT, " +
+                        TIMESHEET_COLUMN_EXPENSE_ID + " TEXT, " +
                         TIMESHEET_COLUMN_EXPENSE_NAME + " TEXT, " +
-                        TIMESHEET_COLUMN_EXPENSE_PLANNED + " TEXT, " +
-                        TIMESHEET_COLUMN_EXPENSE_PAID +" TEXT)"
+                        TIMESHEET_COLUMN_EXPENSE_PLANNED + " INTEGER, " +
+                        TIMESHEET_COLUMN_EXPENSE_PAID +" INTEGER)"
         );
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME); // FOR TEST - remove it later!!!
         db.execSQL(
