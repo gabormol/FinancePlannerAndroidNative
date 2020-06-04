@@ -59,7 +59,8 @@ public class FinancePlannerPresenter
         Log.d(TAG, "LOFASZ - Presenter requesting DB creation from Model");
         //getModel().logIn(getApplicationContext());
         //getModel().myData(getApplicationContext());
-        getModel().myExpenses(getApplicationContext());
+        //getModel().myExpenses(getApplicationContext());
+        getModel().myStatictics(getApplicationContext());
         //getModel().logOut();
     }
 

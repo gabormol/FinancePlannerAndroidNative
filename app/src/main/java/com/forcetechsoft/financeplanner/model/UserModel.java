@@ -81,7 +81,7 @@ public class UserModel extends GenericFinancePlannerModel {
 
                     @Override
                     public void onError() {
-                        Log.d(TAG, "LOFASZ: LOGIN failed!!!");
+                        Log.d(TAG, "LOFASZ: GET EXPENSES failed!!!");
                     }
                 });
     }
@@ -93,7 +93,21 @@ public class UserModel extends GenericFinancePlannerModel {
 
     @Override
     public void myStatictics(Context aContext) {
+        Log.d(TAG, "LOFASZ: Getting statistics...");
+        String token = dbOperations.getUserToken(dbOperations.getUserName());
+        communicationService.getMyStatistics(token, dbOperations,
+                new SimpleCallback() {
 
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "LOFASZ: GET STATISTICS success! ");
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d(TAG, "LOFASZ: GET STATISTICS failed!!!");
+                    }
+                });
     }
 
     @Override
