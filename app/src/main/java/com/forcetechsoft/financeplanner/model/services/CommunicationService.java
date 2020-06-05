@@ -83,8 +83,6 @@ public enum CommunicationService {
                                 Log.d(TAG, "LOFASZ: onSuccess() userData username:" + userList.get(0).getUsername());
                                 Log.d(TAG, "LOFASZ: onSuccess() userData admin:" + userList.get(0).isAdmin());
                                 callback.onSuccess();
-                                //dbOperations.insertUserItem(username, loginStatus.getToken(),
-                                //        false, " ", " "," "," ");
                             }
 
                             @Override
