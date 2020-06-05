@@ -88,7 +88,36 @@ public class UserModel extends GenericFinancePlannerModel {
 
     @Override
     public void myTimesheet(Context aContext) {
+        Log.d(TAG, "LOFASZ: Getting timesheet...");
+        String token = dbOperations.getUserToken(dbOperations.getUserName());
+        communicationService.getMyTimesheet(token, dbOperations,
+                new SimpleCallback() {
 
+                    @Override
+                    public void onSuccess() {
+                        Cursor aCursor = dbOperations.getAllTimesheetItems();
+                        aCursor.moveToFirst();
+                        Log.d(TAG, "LOFASZ: read from Database: ");
+                        String[] columnNames = aCursor.getColumnNames();
+                        String cursorString = "";
+                        for (String name: columnNames)
+                            cursorString += String.format("%s ][ ", name);
+                        do {
+                            for (String name: columnNames) {
+                                cursorString += String.format("%s ][ ",
+                                        aCursor.getString(aCursor.getColumnIndex(name)));
+                            }
+                            cursorString += "\n";
+                        } while (aCursor.moveToNext());
+                        Log.d(TAG, "Database content: " + cursorString);
+                        //myData(aContext); // TODO: Remove this chaining later!!!
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d(TAG, "LOFASZ: GET EXPENSES failed!!!");
+                    }
+                });
     }
 
     @Override

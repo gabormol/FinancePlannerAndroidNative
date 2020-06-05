@@ -171,6 +171,10 @@ public class FinancePlannerDatabaseOperations {
         database.delete(FinancePlannerDatabaseHelper.TEMPLATE_TABLE_NAME, null, null);
     }
 
+    public void deleteAllTimesheeItems(){
+        database.delete(FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME, null, null);
+    }
+
     public Integer deleteTimesheetItem(Integer id) {
         return database.delete(FinancePlannerDatabaseHelper.TIMESHEET_TABLE_NAME,
                 FinancePlannerDatabaseHelper.TIMESHEET_COLUMN_ID + " = ? ",

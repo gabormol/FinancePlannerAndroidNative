@@ -26,6 +26,6 @@ public interface ApiService {
 
     @Headers({"token-expiration-ignore: true"})
     @GET("/timesheets")
-    Single<List<TimesheetItem>> myTimesheet(@Header("x-access-token") String jwtToken);
+    Single<List<TimesheetFrame>> myTimesheet(@Header("x-access-token") String jwtToken);
 
 }

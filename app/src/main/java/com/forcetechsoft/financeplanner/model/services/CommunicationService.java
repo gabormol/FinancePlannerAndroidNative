@@ -138,6 +138,49 @@ public enum CommunicationService {
         }).start();
     }
 
+    public void getMyTimesheet(final String jwt, final FinancePlannerDatabaseOperations dbOperations,
+                              final SimpleCallback callback){
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                retrofit = ApiUtils.getClient(ApiUtils.BASE_URL);
+                ApiService apiService = retrofit.create(ApiService.class);
+                Log.d(TAG, "LOFASZ: Sending GET request");
+                apiService.myTimesheet(jwt)
+                        .subscribe(new SingleObserver<List<TimesheetFrame>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.d(TAG, "LOFASZ: onSubscribe");
+                            }
+
+                            @Override
+                            public void onSuccess(List<TimesheetFrame> timesheets) {
+                                dbOperations.deleteAllTimesheeItems();
+                                for(TimesheetFrame tf : timesheets){
+                                    String timesheetID = tf.getId();
+                                    List<TimesheetItem> tsItems= tf.getItems();
+                                    for (TimesheetItem ti : tsItems)
+                                    {
+                                        dbOperations.insertTimesheetItem(timesheetID, ti.getId(), ti.getItemName(),
+                                                ti.getAmountPlanned(), ti.getAmountPaid());
+                                    }
+                                }
+                                callback.onSuccess();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(TAG, "LOFASZ: onError: " + e);
+                                callback.onError();
+                            }
+                        });
+
+                Log.d(TAG, "LOFASZ: GET returned");
+            }
+        }).start();
+    }
+
     public void getMyStatistics(final String jwt, final FinancePlannerDatabaseOperations dbOperations,
                               final SimpleCallback callback){
         new Thread(new Runnable() {

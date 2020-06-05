@@ -60,7 +60,8 @@ public class FinancePlannerPresenter
         //getModel().logIn(getApplicationContext());
         //getModel().myData(getApplicationContext());
         //getModel().myExpenses(getApplicationContext());
-        getModel().myStatictics(getApplicationContext());
+        //getModel().myStatictics(getApplicationContext());
+        getModel().myTimesheet(getApplicationContext());
         //getModel().logOut();
     }
 
