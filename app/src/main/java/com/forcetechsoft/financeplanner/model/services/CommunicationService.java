@@ -197,7 +197,6 @@ public enum CommunicationService {
 
                             @Override
                             public void onSuccess(List<StatisticItem> statisticItems) {
-                                dbOperations.deleteAllTemplateItems();
                                 for(StatisticItem si : statisticItems){
                                     // No database for statistics
                                     Log.d(TAG, "LOFASZ: Statistics _id: " + si.getId());

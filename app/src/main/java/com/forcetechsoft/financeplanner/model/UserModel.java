@@ -36,6 +36,11 @@ public class UserModel extends GenericFinancePlannerModel {
     }
 
     @Override
+    public boolean getLoginStatus() {
+        return true; // TODO fix
+    }
+
+    @Override
     public void logOut() {
         dbOperations.deleteUserItem(dbOperations.getUserName());
     }
@@ -49,6 +54,7 @@ public class UserModel extends GenericFinancePlannerModel {
 
                     @Override
                     public void onSuccess() {
+                        Log.d(TAG, "LOFASZ: GET EXPENSES OK!");
                         Cursor aCursor = dbOperations.getAllTemplateItems();
                         logDatabaseContent(aCursor);
                     }
@@ -144,7 +150,11 @@ public class UserModel extends GenericFinancePlannerModel {
 
     @Override
     public boolean isUserLoggedIn(Context aContext) {
-        return false;
+        if (dbOperations.getUserName() != null){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

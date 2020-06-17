@@ -9,15 +9,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.forcetechsoft.financeplanner.MVP;
 import com.forcetechsoft.financeplanner.common.GenericActivity;
+import com.forcetechsoft.financeplanner.presenter.FinancePlannerPresenter;
 
-public class SearchActivity extends GenericActivity {
+public class SearchActivity extends GenericActivity<MVP.RequiredViewOps,
+        MVP.ProvidedPresenterOps, FinancePlannerPresenter>
+        implements MVP.RequiredViewOps {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        super.onCreate(FinancePlannerPresenter.class,
+                this);
+        getPresenter().openTimesheet();
     }
 
     public void searchOptions(View view) {

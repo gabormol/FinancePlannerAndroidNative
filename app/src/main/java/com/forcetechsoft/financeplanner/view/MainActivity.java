@@ -5,9 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+import com.forcetechsoft.financeplanner.MVP;
 import com.forcetechsoft.financeplanner.common.GenericActivity;
+import com.forcetechsoft.financeplanner.presenter.FinancePlannerPresenter;
 
-public class MainActivity extends GenericActivity {
+public class MainActivity extends GenericActivity<MVP.RequiredViewOps,
+        MVP.ProvidedPresenterOps,
+        FinancePlannerPresenter> // The conctere presenter type is important here we tell which presenter to use
+        implements MVP.RequiredViewOps {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +45,43 @@ public class MainActivity extends GenericActivity {
     public void shareBtn(View view) {
         // Get the user input (if any).
 
-        Intent intent = new Intent(this, ShareOptions.class);
-        startActivity(intent);
+        //if (!getPresenter().getLoginStatus()){
+        //    Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
+        //} else {
+            Intent intent = new Intent(this, ShareOptions.class);
+            startActivity(intent);
 
-        overridePendingTransition(
-                R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
-
+            overridePendingTransition(
+                    R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
+        //}
 
     }
 
     public void searchBtn(View view) {
         // Get the user input (if any).
 
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        //if (!getPresenter().getLoginStatus()){
+        //    Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
+        //} else {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
 
-        overridePendingTransition(
-                R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
+            overridePendingTransition(
+                    R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
+        //}
 
     }
 
     public void accountBtn(View view) {
-        // Get the user input (if any).
-        Toast.makeText(MainActivity.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
+        //if (!getPresenter().getLoginStatus()){
+        //    Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
+        //} else {
+            Intent intent = new Intent(this, SearchOptions.class);
+            startActivity(intent);
 
+            overridePendingTransition(
+                    R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
+        //}
     }
 
     public void settingsBtn(View view){

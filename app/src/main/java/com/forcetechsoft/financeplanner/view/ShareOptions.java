@@ -48,8 +48,7 @@ public class ShareOptions extends GenericActivity<MVP.RequiredViewOps,
 
         super.onCreate(FinancePlannerPresenter.class,
                 this);
-
-
+        getPresenter().openExpenses();
 
 
     }
@@ -150,7 +149,7 @@ public class ShareOptions extends GenericActivity<MVP.RequiredViewOps,
     public void applyNewSettings(View view) {
         Log.d(TAG, "LOFASZ - creating database...");
         Log.d(TAG, "LOFASZ - presenter type: " + getPresenter().getClass().getName());
-        super.getPresenter().createContactDatabase(); // FOR TEST
+        super.getPresenter().openExpenses(); // FOR TEST
         //super.getPresenter().getDatabaseDump(); // FOR TEST
         //goBackToMainActivity();
     }

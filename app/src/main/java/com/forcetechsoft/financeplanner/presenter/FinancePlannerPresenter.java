@@ -55,14 +55,31 @@ public class FinancePlannerPresenter
     }
 
     @Override
-    public void createContactDatabase() {
+    public void openExpenses() {
         Log.d(TAG, "LOFASZ - Presenter requesting DB creation from Model");
         //getModel().logIn(getApplicationContext());
         //getModel().myData(getApplicationContext());
-        //getModel().myExpenses(getApplicationContext());
+        getModel().myExpenses(getApplicationContext());
         //getModel().myStatictics(getApplicationContext());
-        getModel().myTimesheet(getApplicationContext());
+        //getModel().myTimesheet(getApplicationContext());
         //getModel().logOut();
+    }
+
+    @Override
+    public void openTimesheet() {
+        Log.d(TAG, "LOFASZ - Open timesheet");
+        getModel().myTimesheet(getApplicationContext());
+    }
+
+    @Override
+    public void openBalance() {
+        Log.d(TAG, "LOFASZ - Open balance");
+        getModel().myStatictics(getApplicationContext());
+    }
+
+    @Override
+    public boolean getLoginStatus() {
+        return getModel().getLoginStatus();
     }
 
     @Override

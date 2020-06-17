@@ -40,7 +40,10 @@ public interface MVP {
     public interface ProvidedPresenterOps
             extends PresenterOps<RequiredViewOps> {
 
-        public void createContactDatabase();
+        public void openExpenses();
+        public void openTimesheet();
+        public void openBalance();
+        public boolean getLoginStatus();
         public void getDatabaseDump();
 
     }
@@ -69,6 +72,7 @@ public interface MVP {
             extends ModelOps<RequiredPresenterOps> {
 
         public void logIn(Context aContext);
+        public boolean getLoginStatus();
         public void logOut();
         public void myExpenses(Context aContext);
         public void myTimesheet(Context aContext);

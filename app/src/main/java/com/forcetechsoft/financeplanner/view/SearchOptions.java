@@ -7,9 +7,13 @@ import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.forcetechsoft.financeplanner.MVP;
 import com.forcetechsoft.financeplanner.common.GenericActivity;
+import com.forcetechsoft.financeplanner.presenter.FinancePlannerPresenter;
 
-public class SearchOptions extends GenericActivity {
+public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
+        MVP.ProvidedPresenterOps, FinancePlannerPresenter>
+        implements MVP.RequiredViewOps {
 
     NumberPicker numberPickerLocationPrice;
     NumberPicker numberPickerContactsPrice;
@@ -28,6 +32,9 @@ public class SearchOptions extends GenericActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_options);
+        super.onCreate(FinancePlannerPresenter.class,
+                this);
+        getPresenter().openBalance();
 
         // Set Radio Buttons
         initializeRadioButtons();
