@@ -20,6 +20,8 @@ public class MainActivity extends GenericActivity<MVP.RequiredViewOps,
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        super.onCreate(FinancePlannerPresenter.class,
+                this);
 
         /*final Button shareButton = (Button) findViewById(R.id.button_share);
         shareButton.setOnClickListener(new View.OnClickListener(){
@@ -45,43 +47,43 @@ public class MainActivity extends GenericActivity<MVP.RequiredViewOps,
     public void shareBtn(View view) {
         // Get the user input (if any).
 
-        //if (!getPresenter().getLoginStatus()){
-        //    Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
-        //} else {
+        if (!getPresenter().getLoginStatus()){
+            Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
+        } else {
             Intent intent = new Intent(this, ShareOptions.class);
             startActivity(intent);
 
             overridePendingTransition(
                     R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
-        //}
+        }
 
     }
 
     public void searchBtn(View view) {
         // Get the user input (if any).
 
-        //if (!getPresenter().getLoginStatus()){
-        //    Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
-        //} else {
+        if (!getPresenter().getLoginStatus()){
+            Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
+        } else {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
 
             overridePendingTransition(
                     R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
-        //}
+        }
 
     }
 
     public void accountBtn(View view) {
-        //if (!getPresenter().getLoginStatus()){
-        //    Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
-        //} else {
+        if (!getPresenter().getLoginStatus()){
+            Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
+        } else {
             Intent intent = new Intent(this, SearchOptions.class);
             startActivity(intent);
 
             overridePendingTransition(
                     R.animator.activity_flip_right_in, R.animator.activity_flip_right_out);
-        //}
+        }
     }
 
     public void settingsBtn(View view){
