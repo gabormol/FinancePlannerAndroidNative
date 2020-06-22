@@ -1,19 +1,15 @@
 package com.forcetechsoft.financeplanner.view;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.NumberPicker;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.forcetechsoft.financeplanner.MVP;
 import com.forcetechsoft.financeplanner.common.GenericActivity;
 import com.forcetechsoft.financeplanner.presenter.FinancePlannerPresenter;
 
-public class SearchActivity extends GenericActivity<MVP.RequiredViewOps,
+public class Timesheet extends GenericActivity<MVP.RequiredViewOps,
         MVP.ProvidedPresenterOps, FinancePlannerPresenter>
         implements MVP.RequiredViewOps {
 
@@ -28,7 +24,7 @@ public class SearchActivity extends GenericActivity<MVP.RequiredViewOps,
     }
 
     public void searchOptions(View view) {
-        Intent intent = new Intent(this, SearchOptions.class);
+        Intent intent = new Intent(this, Balance.class);
         startActivity(intent);
 
         overridePendingTransition(
@@ -36,15 +32,15 @@ public class SearchActivity extends GenericActivity<MVP.RequiredViewOps,
     }
 
     public void searchLocation(View view) {
-        Toast.makeText(SearchActivity.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Timesheet.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
     }
 
     public void searchContact(View view) {
-        Toast.makeText(SearchActivity.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Timesheet.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
     }
 
     public void searchSocialContact(View view) {
-        Toast.makeText(SearchActivity.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Timesheet.this, "NOT IMPLEMENTED YET!!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="ShareOptions"/>
-        <activity android:name="SearchActivity"/>
-        <activity android:name="SearchOptions"/>
+        <activity android:name=".Expenses"/>
+        <activity android:name=".Timesheet"/>
+        <activity android:name=".Balance"/>
     </application>
 
 </manifest>

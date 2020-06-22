@@ -1,7 +1,7 @@
 package com.forcetechsoft.financeplanner.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
@@ -11,30 +11,33 @@ import com.forcetechsoft.financeplanner.MVP;
 import com.forcetechsoft.financeplanner.common.GenericActivity;
 import com.forcetechsoft.financeplanner.presenter.FinancePlannerPresenter;
 
-public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
-        MVP.ProvidedPresenterOps, FinancePlannerPresenter>
-        implements MVP.RequiredViewOps {
+public class Expenses extends GenericActivity<MVP.RequiredViewOps,
+        MVP.ProvidedPresenterOps,
+        FinancePlannerPresenter> // The conctere presenter type is important here we tell which presenter to use
+        implements MVP.RequiredViewOps{
 
     NumberPicker numberPickerLocationPrice;
     NumberPicker numberPickerContactsPrice;
     NumberPicker numberPickerSocialContactsPrice;
     RadioButton radioButtonLocFree;
+    RadioButton radioButtonLocAsk;
     RadioButton radioButtonLocPrice;
     RadioButton radioButtonContFree;
+    RadioButton radioButtonContAsk;
     RadioButton radioButtonContPrice;
-    RadioButton radioButtonSocContFree;
+    RadioButton radioButtonSocContLocFree;
+    RadioButton radioButtonSocContAsk;
     RadioButton radioButtonSocContPrice;
     RadioGroup radioGroupLocation;
     RadioGroup radioGroupContacts;
     RadioGroup radioGroupSocContacts;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_options);
-        super.onCreate(FinancePlannerPresenter.class,
-                this);
-        getPresenter().openBalance();
+        setContentView(R.layout.activity_share_options);
+
 
         // Set Radio Buttons
         initializeRadioButtons();
@@ -42,35 +45,44 @@ public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
         initializeNumberPickers();
 
         initializeRadioGroups();
+
+        super.onCreate(FinancePlannerPresenter.class,
+                this);
+        getPresenter().openExpenses();
+
+
     }
 
     private void initializeRadioButtons(){
-        radioButtonLocFree = (RadioButton)findViewById(R.id.radioButtonFreeLocationSearch);
-        radioButtonLocPrice = (RadioButton)findViewById(R.id.radioButtonPaidLocationSearch);
-        radioButtonContFree = (RadioButton)findViewById(R.id.radioButtonFreeContactSearch);
-        radioButtonContPrice = (RadioButton)findViewById(R.id.radioButtonPaidContactSearch);
-        radioButtonSocContFree = (RadioButton)findViewById(R.id.radioButtonFreeSocialSearch);
-        radioButtonSocContPrice = (RadioButton)findViewById(R.id.radioButtonPaidSocialContactSeatch);
+        radioButtonLocFree = (RadioButton)findViewById(R.id.radioButtonFreeLocation);
+        radioButtonLocAsk = (RadioButton)findViewById(R.id.radioButtonAskLocation);
+        radioButtonLocPrice = (RadioButton)findViewById(R.id.radioButtonShareLocationFor);
+        radioButtonContFree = (RadioButton)findViewById(R.id.radioButtonFreeContact);
+        radioButtonContAsk = (RadioButton)findViewById(R.id.radioButtonAskContact);
+        radioButtonContPrice = (RadioButton)findViewById(R.id.radioButtonShareContactFor);
+        radioButtonSocContLocFree = (RadioButton)findViewById(R.id.radioButtonFreeSocial);
+        radioButtonSocContAsk = (RadioButton)findViewById(R.id.radioButtonAskSocial);
+        radioButtonSocContPrice = (RadioButton)findViewById(R.id.radioButtonShareSocialFor);
 
         // set listeners for the Radio Button group
 
 
         // initialize or read from database
-        radioButtonLocFree.setChecked(true);
-        radioButtonContFree.setChecked(true);
-        radioButtonSocContFree.setChecked(true);
+        radioButtonLocAsk.setChecked(true);
+        radioButtonContAsk.setChecked(true);
+        radioButtonSocContAsk.setChecked(true);
     }
 
     public void initializeNumberPickers(){
         numberPickerLocationPrice =
-                (NumberPicker) findViewById(R.id.locationSearchPrice);
+                (NumberPicker) findViewById(R.id.locationSharePrice);
         numberPickerLocationPrice.setMinValue(0);
         numberPickerLocationPrice.setMaxValue(99);
         if (!radioButtonLocPrice.isChecked())
             numberPickerLocationPrice.setEnabled(false);
 
         numberPickerContactsPrice =
-                (NumberPicker) findViewById(R.id.contactSearchPrice);
+                (NumberPicker) findViewById(R.id.contactSharePrice);
         numberPickerContactsPrice.setMinValue(0);
         numberPickerContactsPrice.setMaxValue(99);
         if (!radioButtonContPrice.isChecked())
@@ -85,16 +97,16 @@ public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
     }
 
     public void initializeRadioGroups(){
-        radioGroupLocation = (RadioGroup) findViewById(R.id.radioGroupLocationSearch);
-        radioGroupContacts = (RadioGroup) findViewById(R.id.radioGroupContactsSearch);
-        radioGroupSocContacts = (RadioGroup) findViewById(R.id.radioGroupSocialContactsSearch);
+        radioGroupLocation = (RadioGroup) findViewById(R.id.radioGroupLocation);
+        radioGroupContacts = (RadioGroup) findViewById(R.id.radioGroupContacts);
+        radioGroupSocContacts = (RadioGroup) findViewById(R.id.radioGroupSocialContacts);
 
         radioGroupLocation.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
 
-                if (group.getCheckedRadioButtonId() == R.id.radioButtonPaidLocationSearch) {
+                if (group.getCheckedRadioButtonId() == R.id.radioButtonShareLocationFor) {
                     numberPickerLocationPrice.setEnabled(true);
                 } else {
                     numberPickerLocationPrice.setEnabled(false);
@@ -107,7 +119,7 @@ public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
 
-                if (group.getCheckedRadioButtonId() == R.id.radioButtonPaidContactSearch) {
+                if (group.getCheckedRadioButtonId() == R.id.radioButtonShareContactFor) {
                     numberPickerContactsPrice.setEnabled(true);
                 } else {
                     numberPickerContactsPrice.setEnabled(false);
@@ -120,7 +132,7 @@ public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
 
-                if (group.getCheckedRadioButtonId() == R.id.radioButtonPaidSocialContactSeatch) {
+                if (group.getCheckedRadioButtonId() == R.id.radioButtonShareSocialFor) {
                     numberPickerSocialContactsPrice.setEnabled(true);
                 } else {
                     numberPickerSocialContactsPrice.setEnabled(false);
@@ -130,21 +142,36 @@ public class SearchOptions extends GenericActivity<MVP.RequiredViewOps,
     }
 
     public void dontApplyAnySetting(View view) {
-        goBackToPreviousActivity();
+        goBackToMainActivity();
 
     }
 
     public void applyNewSettings(View view) {
-        goBackToPreviousActivity();
+        Log.d(TAG, "LOFASZ - creating database...");
+        Log.d(TAG, "LOFASZ - presenter type: " + getPresenter().getClass().getName());
+        super.getPresenter().openExpenses(); // FOR TEST
+        //super.getPresenter().getDatabaseDump(); // FOR TEST
+        //goBackToMainActivity();
     }
 
     @Override
     public void onBackPressed() {
-        goBackToPreviousActivity();
+        goBackToMainActivity();
 
     }
 
-    private void goBackToPreviousActivity(){
+    private void goBackToMainActivity(){
+        /*new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                Log.d("LOFASZ", "Thread name: " + Thread.currentThread().getName());
+                Intent intent = new Intent(ShareOptions.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(
+                        R.animator.activity_flip_left_in, R.animator.activity_flip_left_out);
+            }
+        }).start();*/
         finish();
         overridePendingTransition(
                 R.animator.activity_flip_left_out, R.animator.activity_flip_left_in);

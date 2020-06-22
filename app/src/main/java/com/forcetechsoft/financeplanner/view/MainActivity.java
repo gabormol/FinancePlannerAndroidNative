@@ -50,7 +50,7 @@ public class MainActivity extends GenericActivity<MVP.RequiredViewOps,
         if (!getPresenter().getLoginStatus()){
             Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(this, ShareOptions.class);
+            Intent intent = new Intent(this, Expenses.class);
             startActivity(intent);
 
             overridePendingTransition(
@@ -65,7 +65,7 @@ public class MainActivity extends GenericActivity<MVP.RequiredViewOps,
         if (!getPresenter().getLoginStatus()){
             Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(this, SearchActivity.class);
+            Intent intent = new Intent(this, Timesheet.class);
             startActivity(intent);
 
             overridePendingTransition(
@@ -78,7 +78,7 @@ public class MainActivity extends GenericActivity<MVP.RequiredViewOps,
         if (!getPresenter().getLoginStatus()){
             Toast.makeText(MainActivity.this, "NOT LOGGED IN!!!", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(this, SearchOptions.class);
+            Intent intent = new Intent(this, Balance.class);
             startActivity(intent);
 
             overridePendingTransition(
